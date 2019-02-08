@@ -2,7 +2,9 @@
 using kul.forbes.contracts.configs;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
+using MoreLinq;
 using System;
+using System.Linq;
 
 namespace kul.forbes.helpers.domain.Accelerators
 {
@@ -11,14 +13,13 @@ namespace kul.forbes.helpers.domain.Accelerators
         private readonly IFunction function;
         private readonly IConfigLBFGS config;
 
-        private Vector<double> rho;
-        private Vector<double> alpha;
-
         private Matrix<double> s;
         private Matrix<double> y;
 
         private int activeBufferSize;
         private int cursor;
+
+        double hessianEstimate;
 
         public LBFGS(
             IFunction function,
@@ -30,8 +31,7 @@ namespace kul.forbes.helpers.domain.Accelerators
             s = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             y = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
 
-            rho = Vector<double>.Build.Dense(config.CacheSize);
-            alpha = Vector<double>.Build.Dense(config.CacheSize);
+            
             activeBufferSize = 0;
             cursor = 0;
         }
@@ -40,13 +40,32 @@ namespace kul.forbes.helpers.domain.Accelerators
         {
             if (activeBufferSize == 0) return -function.Evaluate(location).gradient;
 
-            for (int i = 0; i < activeBufferSize; i++)
-            {
-                var floatIndex = GetFloatingIndex(i);
-            }
+            var outputDirection = function.Evaluate(location).gradient;
+            var rho = Vector<double>.Build.Dense(config.CacheSize);
+            var alpha = Vector<double>.Build.Dense(config.CacheSize);
 
+            Enumerable.Range(0, activeBufferSize)
+                .Select(GetFloatingIndex)
+                .ForEach(i => 
+                {
+                    rho[i] = 1 / (s.Column(i).DotProduct(y.Column(i)));
+                    alpha[i] = rho[i] * (s.Column(i).DotProduct(outputDirection));
 
-            throw new NotImplementedException();
+                    outputDirection = outputDirection - (alpha[i] * y.Column(i));
+                });
+
+            outputDirection = outputDirection * hessianEstimate;
+
+            Enumerable.Range(0, activeBufferSize)
+                .Reverse()
+                .Select(GetFloatingIndex)
+                .ForEach(i=>
+                {
+                    var beta = rho[i] * (y.Column(i).DotProduct(outputDirection));
+                    outputDirection = outputDirection + ((alpha[i] - beta) * s.Column(i));
+                });
+
+            return -outputDirection;
         }
 
         private int GetFloatingIndex(int i)

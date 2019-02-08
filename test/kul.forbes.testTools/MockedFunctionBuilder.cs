@@ -22,7 +22,7 @@ namespace kul.forbes.testTools
             return this;
         }
 
-        public Mock<IFunction> Builder()
+        public Mock<IFunction> Build()
         {
             return mock;
         }

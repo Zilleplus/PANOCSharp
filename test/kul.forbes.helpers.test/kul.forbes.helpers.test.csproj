@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\kul.forbes.contracts\kul.forbes.contracts.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.domain\kul.forbes.domain.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.helpers.domain\kul.forbes.helpers.domain.csproj" />
+    <ProjectReference Include="..\kul.forbes.testTools\kul.forbes.testTools.csproj" />
+  </ItemGroup>
+
+</Project>

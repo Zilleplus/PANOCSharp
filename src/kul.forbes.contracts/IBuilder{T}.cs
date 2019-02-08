@@ -6,6 +6,6 @@ namespace kul.forbes.contracts
 {
     public interface IBuilder<T>
     {
-        T Builder();
+        T Build();
     }
 }

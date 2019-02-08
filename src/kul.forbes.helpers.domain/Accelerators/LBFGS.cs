@@ -16,7 +16,7 @@ namespace kul.forbes.helpers.domain.Accelerators
         private Matrix<double> s;
         private Matrix<double> y;
 
-        private int activeBufferSize;
+        private int activeCacheSize;
         private int cursor;
 
         double hessianEstimate;
@@ -30,21 +30,20 @@ namespace kul.forbes.helpers.domain.Accelerators
 
             s = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             y = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
-
             
-            activeBufferSize = 0;
+            activeCacheSize = 0;
             cursor = 0;
         }
 
         public Vector<double> GetStep(Vector<double> location)
         {
-            if (activeBufferSize == 0) return -function.Evaluate(location).gradient;
+            if (activeCacheSize == 0) return -function.Evaluate(location).gradient;
 
             var outputDirection = function.Evaluate(location).gradient;
             var rho = Vector<double>.Build.Dense(config.CacheSize);
             var alpha = Vector<double>.Build.Dense(config.CacheSize);
 
-            Enumerable.Range(0, activeBufferSize)
+            Enumerable.Range(0, activeCacheSize)
                 .Select(GetFloatingIndex)
                 .ForEach(i => 
                 {
@@ -56,7 +55,7 @@ namespace kul.forbes.helpers.domain.Accelerators
 
             outputDirection = outputDirection * hessianEstimate;
 
-            Enumerable.Range(0, activeBufferSize)
+            Enumerable.Range(0, activeCacheSize)
                 .Reverse()
                 .Select(GetFloatingIndex)
                 .ForEach(i=>
@@ -71,9 +70,26 @@ namespace kul.forbes.helpers.domain.Accelerators
         private int GetFloatingIndex(int i)
             => (cursor - 1 - i + config.CacheSize) % config.CacheSize;
 
-        public void Update(Vector<double> location, Vector<double> newLocation)
+        public bool Update(Vector<double> location, Vector<double> newLocation)
         {
-            throw new NotImplementedException();
+            Func<Vector<double>, Vector<double>> df = (loc) => function.Evaluate(loc).gradient;
+            var potentialS = newLocation - location;
+            var potentialY = df(newLocation) - df(location);
+
+            var safetyValueCarefullUpdate = potentialS.DotProduct(potentialY) / potentialS.DotProduct(potentialS);
+            if (safetyValueCarefullUpdate > df(location).Norm(2) * 1e-12)
+            {
+                potentialS.CopyTo(s.Column(cursor));
+                potentialY.CopyTo(y.Column(cursor));
+                hessianEstimate = potentialS.DotProduct(potentialY) / potentialY.DotProduct(potentialY);
+
+                activeCacheSize = (activeCacheSize < config.CacheSize)
+                ? activeCacheSize + 1 : activeCacheSize;
+                cursor = (cursor + 1) % config.CacheSize;
+
+                return true;
+            }
+            return false;
         }
     }
 }

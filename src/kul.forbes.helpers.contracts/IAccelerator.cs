@@ -9,6 +9,6 @@ namespace kul.forbes.helpers.contracts
     {
         Vector<double> GetStep(Vector<double> location);
 
-        void Update(Vector<double> location, Vector<double> newLocation);
+        bool Update(Vector<double> location, Vector<double> newLocation);
     }
 }

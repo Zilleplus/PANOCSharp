@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.10.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\kul.forbes.contracts\kul.forbes.contracts.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj" />
+  </ItemGroup>
+
+</Project>

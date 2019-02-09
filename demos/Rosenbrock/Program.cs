@@ -9,7 +9,7 @@ namespace Rosenbrock
 {
     public class Program
     {
-        public void Main()
+        static void Main()
         {
             Console.WriteLine("Demo of PANOC using rosenbrock function");
 
@@ -18,7 +18,7 @@ namespace Rosenbrock
             var solver = container.Resolve<IPanoc>();
         }
 
-        private IContainer SetupContainer()
+        private static IContainer SetupContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<PanocModule>();

@@ -1,4 +1,5 @@
-﻿using kul.forbes.contracts.configs;
+﻿using kul.forbes.contracts;
+using kul.forbes.contracts.configs;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using System;

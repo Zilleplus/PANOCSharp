@@ -20,7 +20,8 @@ namespace kul.forbes.helpers.domain
             IConfigProximalGradient config,
             ILipschitzEstimator lipschitzEstimator,
             IFunction function,
-            IProx prox)
+            IProx prox,
+            ILogger logger)
         {
             this.config = config;
             this.lipschitzEstimator = lipschitzEstimator;

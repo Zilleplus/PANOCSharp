@@ -2,19 +2,20 @@
 using kul.forbes.contracts.configs;
 using MathNet.Numerics.LinearAlgebra;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace kul.forbes.domain
 {
     public class Panoc : IPanoc
     {
         private readonly IConfigPanoc config;
+        private readonly ILogger logger;
 
         public Panoc(
-            IConfigPanoc config)
+            IConfigPanoc config,
+            ILogger logger)
         {
             this.config = config;
+            this.logger = logger;
         }
 
         public Vector<double> Solve(Vector<double> location)

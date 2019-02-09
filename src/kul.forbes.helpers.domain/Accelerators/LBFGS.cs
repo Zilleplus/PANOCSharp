@@ -12,7 +12,7 @@ namespace kul.forbes.helpers.domain.Accelerators
     {
         private readonly IFunction function;
         private readonly IConfigLBFGS config;
-
+        private readonly ILogger logger;
         private Matrix<double> s;
         private Matrix<double> y;
 
@@ -23,11 +23,12 @@ namespace kul.forbes.helpers.domain.Accelerators
 
         public LBFGS(
             IFunction function,
-            IConfigLBFGS config)
+            IConfigLBFGS config,
+            ILogger logger)
         {
             this.function = function;
             this.config = config;
-
+            this.logger = logger;
             s = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             y = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             
@@ -45,6 +46,7 @@ namespace kul.forbes.helpers.domain.Accelerators
 
             Enumerable.Range(0, activeCacheSize)
                 .Select(GetFloatingIndex)
+                .ToList()
                 .ForEach(i => 
                 {
                     rho[i] = 1 / (s.Column(i).DotProduct(y.Column(i)));
@@ -58,6 +60,7 @@ namespace kul.forbes.helpers.domain.Accelerators
             Enumerable.Range(0, activeCacheSize)
                 .Reverse()
                 .Select(GetFloatingIndex)
+                .ToList()
                 .ForEach(i=>
                 {
                     var beta = rho[i] * (y.Column(i).DotProduct(outputDirection));

@@ -13,13 +13,16 @@ namespace kul.forbes.helpers.domain
     {
         private readonly IFunction function;
         private readonly IConfigLipschitzEstimator config;
+        private readonly ILogger logger;
 
         public LipschitzEstimator(
             IFunction function,
-            IConfigLipschitzEstimator config)
+            IConfigLipschitzEstimator config,
+            ILogger logger)
         {
             this.function = function;
             this.config = config;
+            this.logger = logger;
         }
 
         // Get the step used to estimate the lipschitz constant

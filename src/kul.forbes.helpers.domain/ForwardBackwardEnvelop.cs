@@ -12,7 +12,8 @@ namespace kul.forbes.helpers.domain
 
         public ForwardBackwardEnvelop(
             IProximalGradient proximalGradient,
-            IConfigForwardBackwardEnvelop config)
+            IConfigForwardBackwardEnvelop config,
+            ILogger logger)
         {
             this.proximalGradient = proximalGradient;
             this.config = config;

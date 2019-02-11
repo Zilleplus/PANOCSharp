@@ -82,7 +82,11 @@ namespace kul.forbes.helpers.domain.Accelerators
             var safetyValueCarefullUpdate = potentialS.DotProduct(potentialY) / potentialS.DotProduct(potentialS);
             if (safetyValueCarefullUpdate > df(location).Norm(2) * 1e-12)
             {
-                potentialS.CopyTo(s.Column(cursor));
+                for (int i = 0; i < s.RowCount; i++)
+                {
+                    s[i, cursor] = potentialS[i];
+                    y[i, cursor] = potentialY[i];
+                }
                 potentialY.CopyTo(y.Column(cursor));
                 hessianEstimate = potentialS.DotProduct(potentialY) / potentialY.DotProduct(potentialY);
 

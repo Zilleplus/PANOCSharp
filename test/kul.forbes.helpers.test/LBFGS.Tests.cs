@@ -4,6 +4,8 @@ using kul.forbes.helpers.domain.Accelerators;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Xunit;
 
@@ -64,10 +66,24 @@ namespace kul.forbes.helpers.test
                 })
                 .ToList();
 
-            var lastElement = res.Last();
+            res.ForEach(r => Debug.Print(
+                "current location ->"
+                + String.Join("," , r.Select(vector=> vector.ToString()))
+                + "\n" ));
 
-            var precision = 0.01;
-            Assert.True(Math.Abs(1 - lastElement[0])< precision);
+            var precision = 1e-6;
+            var expectedLocations = new List<double[]>
+            {
+                new double[]{ 443.2 , -439 },
+                new double[]{-0.089055 , -0.094527 },
+                new double[]{ -0.086346 , -0.091805 },
+                new double[]{ 1 , 1 },
+            };
+            var isCorrectEnough = res.Zip(expectedLocations, (x, y)
+                 => Math.Abs(x[0] - y[0]) < precision
+                 && Math.Abs(x[1] - y[1]) < precision)
+               .Aggregate(true,(x,y)=>x & y);
+            Assert.True(isCorrectEnough);
         }
     }
 }

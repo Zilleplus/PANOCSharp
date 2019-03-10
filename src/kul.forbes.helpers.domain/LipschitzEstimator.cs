@@ -1,5 +1,6 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
+using kul.forbes.entities;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using System;
@@ -36,10 +37,10 @@ namespace kul.forbes.helpers.domain
         // Theorem:
         //    ||gradient(x)|| < B
         // f is B-lipschitz
-        public double Estimate(Vector<double> location)
+        public double Estimate(Location location)
         {
-            var delta = GetDelta(location);
-            return (function.Evaluate(location).gradient- function.Evaluate(location+delta).gradient).Norm(2)
+            var delta = GetDelta(location.Position);
+            return (location.Cost.Gradient- function.Evaluate(location.Position+delta).gradient).Norm(2)
                 / (delta.Norm(2));
         }
     }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\kul.forbes.contracts\kul.forbes.contracts.csproj" />
+    <ProjectReference Include="..\kul.forbes.entities\kul.forbes.entities.csproj" />
   </ItemGroup>
 
 </Project>

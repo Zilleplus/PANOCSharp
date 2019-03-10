@@ -20,23 +20,25 @@ namespace kul.forbes.domain
             this.dimension = dimension;
         }
 
-        public double Prox(Vector<double> vector)
+        public (double,Vector<double>) Prox(Vector<double> vector)
         {
+            var prox = Vector<double>.Build.Dense(vector.Count);
+            vector.CopyTo(prox);
             double cost = 0;
             for (int i = 0; i < vector.Count; i++)
             {
-                if (vector[i] > size)
+                if (prox[i] > size)
                 {
                     cost = penalty;
-                    vector[i] = size;
+                    prox[i] = size;
                 }
-                if (vector[i] < -size)
+                if (prox[i] < -size)
                 {
                     cost = penalty;
-                    vector[i] = -size;
+                    prox[i] = -size;
                 }
             }
-            return cost;
+            return (cost,prox);
         }
     }
 }

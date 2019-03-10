@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace kul.forbes.contracts
+namespace kul.forbes.helpers.domain
 {
-    public interface IForwardBackwardEnvelopCalculator
+    public class ResidualCalculator 
     {
+
     }
 }

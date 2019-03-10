@@ -7,6 +7,6 @@ namespace kul.forbes.contracts
 {
     public interface IProx
     {
-        double Prox(Vector<double> vector);
+        (double cost, Vector<double> location) Prox(Vector<double> vector);
     }
 }

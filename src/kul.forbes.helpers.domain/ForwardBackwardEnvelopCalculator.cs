@@ -12,12 +12,10 @@ namespace kul.forbes.helpers.domain
         private readonly ICalculator<ProximalGradient, Vector<double>> residualCalculator;
 
         public ForwardBackwardEnvelopCalculator(
-            ICalculator<Location,ProxLocation> proxCalculator,
             IConfigForwardBackwardEnvelop config,
             ICalculator<ProximalGradient, Vector<double>> residualCalculator,
             ILogger logger)
         {
-            this.proxCalculator = proxCalculator;
             this.config = config;
             this.residualCalculator = residualCalculator;
         }

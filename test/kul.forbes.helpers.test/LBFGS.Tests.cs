@@ -1,5 +1,6 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
+using kul.forbes.helpers.domain;
 using kul.forbes.helpers.domain.Accelerators;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
@@ -45,24 +46,25 @@ namespace kul.forbes.helpers.test
                 .Object;
 
             var sut = new LBFGS(
-                rosen,
                 new RosenConfig(),
                 default(ILogger));
 
-            var startLocation = new VectorBuilder()
+            var startLocationVector =  new VectorBuilder()
                 .WithElements(-1.2, 1)
                 .Build();
 
-            var location = startLocation;
+            var locationBuilder = new LocationBuilder(rosen);
+
+            var location = locationBuilder.Build(startLocationVector);
             var res = Enumerable
                 .Range(0, 4)
                 .Select(i =>
                 {
-                    var newLocation = location + sut.GetStep(location);
-                    sut.Update(location, newLocation);
-                    newLocation.CopyTo(location);
+                    var newLocation = locationBuilder.Build(location.Position + sut.GetStep(location));
+                    sut.Update(location,newLocation);
 
-                    return location.ToArray();
+                    location = newLocation;
+                    return newLocation.Position.ToArray();
                 })
                 .ToList();
 

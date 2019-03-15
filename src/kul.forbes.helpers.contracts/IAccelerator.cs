@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿using kul.forbes.entities;
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace kul.forbes.helpers.contracts
 {
     public interface IAccelerator
     {
-        Vector<double> GetStep(Vector<double> location);
+        Vector<double> GetStep(Location location);
 
-        bool Update(Vector<double> location, Vector<double> newLocation);
+        bool Update(Location oldLocation,Location newLocation);
     }
 }

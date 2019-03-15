@@ -1,5 +1,6 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
+using kul.forbes.entities;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using MoreLinq;
@@ -10,7 +11,6 @@ namespace kul.forbes.helpers.domain.Accelerators
 {
     public class LBFGS : IAccelerator
     {
-        private readonly IFunction function;
         private readonly IConfigLBFGS config;
         private readonly ILogger logger;
         private Matrix<double> s;
@@ -22,11 +22,9 @@ namespace kul.forbes.helpers.domain.Accelerators
         double hessianEstimate;
 
         public LBFGS(
-            IFunction function,
             IConfigLBFGS config,
             ILogger logger)
         {
-            this.function = function;
             this.config = config;
             this.logger = logger;
             s = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
@@ -36,11 +34,11 @@ namespace kul.forbes.helpers.domain.Accelerators
             cursor = 0;
         }
 
-        public Vector<double> GetStep(Vector<double> location)
+        public Vector<double> GetStep(Location location)
         {
-            if (activeCacheSize == 0) return -function.Evaluate(location).gradient;
+            if (activeCacheSize == 0) return -location.Cost.Gradient;
 
-            var outputDirection = function.Evaluate(location).gradient;
+            var outputDirection = location.Cost.Gradient;
             var rho = Vector<double>.Build.Dense(config.CacheSize);
             var alpha = Vector<double>.Build.Dense(config.CacheSize);
 
@@ -73,14 +71,13 @@ namespace kul.forbes.helpers.domain.Accelerators
         private int GetFloatingIndex(int i)
             => (cursor - 1 - i + config.CacheSize) % config.CacheSize;
 
-        public bool Update(Vector<double> location, Vector<double> newLocation)
+        public bool Update(Location oldLocation,Location newLocation)
         {
-            Func<Vector<double>, Vector<double>> df = (loc) => function.Evaluate(loc).gradient;
-            var potentialS = newLocation - location;
-            var potentialY = df(newLocation) - df(location);
+            var potentialS = newLocation.Position - oldLocation.Position;
+            var potentialY = newLocation.Cost.Gradient - oldLocation.Cost.Gradient;
 
             var safetyValueCarefullUpdate = potentialS.DotProduct(potentialY) / potentialS.DotProduct(potentialS);
-            if (safetyValueCarefullUpdate > df(location).Norm(2) * 1e-12)
+            if (safetyValueCarefullUpdate > oldLocation.Cost.Gradient.Norm(2) * 1e-12)
             {
                 for (int i = 0; i < s.RowCount; i++)
                 {

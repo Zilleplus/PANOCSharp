@@ -58,8 +58,6 @@ namespace kul.forbes.domain
 
                 if (LineSearchCondition(prox))
                     return proxLocationBuilder.Build(step + location.Position);
-
-                accelerator.Update(prox.Location,prox.ProxLocation);
             }
 
             return prox.ProxLocation;

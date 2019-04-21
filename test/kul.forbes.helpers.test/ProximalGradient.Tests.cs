@@ -3,6 +3,8 @@ using kul.forbes.contracts.configs;
 using kul.forbes.domain;
 using kul.forbes.helpers.domain;
 using kul.forbes.testTools;
+using MathNet.Numerics.LinearAlgebra;
+using MoreLinq;
 using System.Linq;
 using Xunit;
 
@@ -29,6 +31,7 @@ namespace kul.forbes.helpers.test
         [Fact]
         public void Given_Polynomial_2th_degree_Solve()
         {
+            var numberOfIterations = 100;
             var degree = 2;
             var poly = new MockedFunctionBuilder()
                 .WithCostGradient(
@@ -36,7 +39,8 @@ namespace kul.forbes.helpers.test
                     (x) => degree*x.PointwisePower(degree-1))
                 .Build()
                 .Object;
-            var proximalOperator = new ProxBox(10,1e7,2);
+            var proximalOperator2 = new ProxBox(10,1e7,2);
+            var proximalOperator = new NormBox(dimension: 2, penality: 1e7, offSet: 2);
             var proximalBuilder = new ProxLocationBuilder(poly, proximalOperator);
             var locationBuilder = new LocationBuilder(poly);
 
@@ -46,15 +50,20 @@ namespace kul.forbes.helpers.test
                 proximalBuilder,
                 default(ILogger));
 
-            var init = locationBuilder.Build(1, 2);
+            var init = locationBuilder.Build(0.5, 0.5);
             var location = sut.Calculate(init).ProxLocation;
-            var res = Enumerable.Range(0,5)
+            var loops = Enumerable.Range(0, numberOfIterations)
                 .Select(i=> 
                 {
                     location = sut.Calculate(location).ProxLocation;
                     return location.Position.ToArray();
                 })
                 .ToList();
+
+            var expected = Vector<double>.Build.Dense(new[] { 0.0, 0.0});
+
+            var res = expected.Zip(loops.Last(), (expect, actual) => (expect, actual));
+            res.ForEach(t=> Assert.Equal(expected: t.expect, actual: t.actual, precision: 2));
         }
     }
 }

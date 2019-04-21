@@ -39,16 +39,14 @@ namespace kul.forbes.helpers.test
                     (x) => degree*x.PointwisePower(degree-1))
                 .Build()
                 .Object;
-            var proximalOperator2 = new ProxBox(10,1e7,2);
             var proximalOperator = new NormBox(dimension: 2, penality: 1e7, offSet: 2);
-            var proximalBuilder = new ProxLocationBuilder(poly, proximalOperator);
             var locationBuilder = new LocationBuilder(poly);
 
             var sut = new ProximalGradientCalculator(
                 new ProxConfig(),
                 new LipschitzEstimator(poly, new ProxConfig(), default(ILogger)),
-                proximalBuilder,
-                default(ILogger));
+                new ProxLocationBuilder(poly, proximalOperator),
+                default);
 
             var init = locationBuilder.Build(0.5, 0.5);
             var location = sut.Calculate(init).ProxLocation;
@@ -61,8 +59,8 @@ namespace kul.forbes.helpers.test
                 .ToList();
 
             var expected = Vector<double>.Build.Dense(new[] { 0.0, 0.0});
-
             var res = expected.Zip(loops.Last(), (expect, actual) => (expect, actual));
+
             res.ForEach(t=> Assert.Equal(expected: t.expect, actual: t.actual, precision: 2));
         }
     }

@@ -32,14 +32,14 @@ namespace kul.forbes.helpers.test
         public void Given_Polynomial_2th_degree_Solve()
         {
             var numberOfIterations = 100;
-            var degree = 2;
+            var degree = 5;
             var poly = new MockedFunctionBuilder()
                 .WithCostGradient(
                     (x) => x.PointwisePower(degree).Sum(),
                     (x) => degree*x.PointwisePower(degree-1))
                 .Build()
                 .Object;
-            var proximalOperator = new NormBox(dimension: 2, penality: 1e7, offSet: 2);
+            var proximalOperator = new NormBox(dimension: 2, penality: 1e10, offSet: 2);
             var locationBuilder = new LocationBuilder(poly);
 
             var sut = new ProximalGradientCalculator(
@@ -58,10 +58,10 @@ namespace kul.forbes.helpers.test
                 })
                 .ToList();
 
-            var expected = Vector<double>.Build.Dense(new[] { 0.0, 0.0});
-            var res = expected.Zip(loops.Last(), (expect, actual) => (expect, actual));
+            var expected = Vector<double>.Build.Dense(new[] { 0.11881573667192692, 0.11881573667192692 }); // answers taken from the C-code
 
-            res.ForEach(t=> Assert.Equal(expected: t.expect, actual: t.actual, precision: 2));
+            Assert.Equal(expected: expected[0], actual: loops.Last()[0], precision: 8);
+            Assert.Equal(expected: expected[1], actual: loops.Last()[1], precision: 8);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace kul.forbes.helpers.domain
         {
             var delta = GetDelta(location.Position);
             return (location.Cost.Gradient- function.Evaluate(location.Position+delta).gradient).Norm(2)
-                / (delta.Norm(2));
+                / ((delta).Norm(2));
         }
     }
 }

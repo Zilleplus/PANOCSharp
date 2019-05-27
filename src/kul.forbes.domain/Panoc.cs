@@ -35,17 +35,18 @@ namespace kul.forbes.domain
         public Vector<double> Solve(Vector<double> initLocation)
         {
             var location = locationBuilder.Build(initLocation);
+            var residual = double.MaxValue;
 
             var maxIter = 10;
-            for (int i = 0; i < maxIter ; i++)
+            for (int i = 0; i < maxIter && residual>1e-3; i++)
             {
-                Search(location);
+                (residual, location) = Search(location);
             }
 
-            throw new NotImplementedException();
+            return location.Position;
         }
 
-        private Location Search(Location location)
+        private (double residual ,Location newLocation) Search(Location location)
         {
             var prox = proxCalculator.Calculate(location);
             Func<int, double> tau = i => Math.Pow(2.0, i);
@@ -57,10 +58,10 @@ namespace kul.forbes.domain
                     + accelerationStep * tau(i);
 
                 if (LineSearchCondition(prox))
-                    return proxLocationBuilder.Build(step + location.Position);
+                    return (0.0, proxLocationBuilder.Build(step + location.Position));
             }
 
-            return prox.ProxLocation;
+            return (0.0,prox.ProxLocation);
         }
 
         private bool LineSearchCondition(ProximalGradient proximalGradient)

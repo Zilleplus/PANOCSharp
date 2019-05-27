@@ -42,7 +42,7 @@ namespace kul.forbes.helpers.domain
         {
             double gamma = location is ProxLocation
                 ? (location as ProxLocation).Gamma
-                : 1 / lipschitzEstimator.Estimate(location);
+                : (1 - config.SafetyValueLineSearch) / lipschitzEstimator.Estimate(location);
 
             var newLocation = proxLocationBuilder.Build(location, gamma);
             while (!LineSearchCondition(location, newLocation))

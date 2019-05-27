@@ -33,7 +33,7 @@ namespace kul.forbes.helpers.domain
             var directionSquaredNorm = (location.Position - newLocation.Position)
                 .DotProduct(location.Position - newLocation.Position);
 
-            return fNew > f - df.DotProduct(dfNew)
+            return fNew > f - df.DotProduct(df)
                 + (1 - config.SafetyValueLineSearch) / (2 * newLocation.Gamma) * directionSquaredNorm
                 + 1e-6 * f;
         }

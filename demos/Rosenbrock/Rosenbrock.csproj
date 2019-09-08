@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,15 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
+    <ProjectReference Include="..\..\src\kul.forbes.API\kul.forbes.API\kul.forbes.API.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\kul.forbes.contracts\kul.forbes.contracts.csproj" />
-    <ProjectReference Include="..\..\src\kul.forbes.domain\kul.forbes.domain.csproj" />
-    <ProjectReference Include="..\..\src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj" />
-    <ProjectReference Include="..\..\src\kul.forbes.helpers.domain\kul.forbes.helpers.domain.csproj" />
-    <ProjectReference Include="..\..\src\kul.forbes.IoC\kul.forbes.IoC.csproj" />
-  </ItemGroup>
-
 </Project>

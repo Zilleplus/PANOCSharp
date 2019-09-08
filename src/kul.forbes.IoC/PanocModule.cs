@@ -15,10 +15,6 @@ namespace kul.forbes.IoC
             builder.RegisterType<LBFGS>().SingleInstance().AsImplementedInterfaces();
             builder.RegisterType<ProximalGradientCalculator>().AsImplementedInterfaces();
             builder.RegisterType<ForwardBackwardEnvelopCalculator>().AsImplementedInterfaces();
-
-            builder.RegisterType<ConfigPanoc>();
-            builder.RegisterType<ProxBox>();
-            builder.RegisterType<Function>();
         }
     }
 }

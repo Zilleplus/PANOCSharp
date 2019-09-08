@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
+using kul.forbes.API;
 using kul.forbes.contracts;
 using kul.forbes.IoC;
 
@@ -11,19 +12,11 @@ namespace Rosenbrock
     {
         static void Main()
         {
-            Console.WriteLine("Demo of PANOC using rosenbrock function");
+            Console.WriteLine("Demo of PANOC API");
 
-            var container = SetupContainer();
+            var solver = new PANOCSolver(default);
 
-            var solver = container.Resolve<IPanoc>();
-        }
-
-        private static IContainer SetupContainer()
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule<PanocModule>();
-
-            return builder.Build();
+            solver.Solve(new double[] { 1.0,1.0 });
         }
     }
 }

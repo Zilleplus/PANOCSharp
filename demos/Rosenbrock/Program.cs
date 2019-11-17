@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
 using kul.forbes.API;
-using kul.forbes.contracts;
-using kul.forbes.IoC;
+using kul.forbes.domain;
 
 namespace Rosenbrock
 {
@@ -14,9 +10,13 @@ namespace Rosenbrock
         {
             Console.WriteLine("Demo of PANOC API");
 
-            var solver = new PANOCSolver(default);
+            var costFunction = new Function((a) => (0, a));
+            var constraint = new ProxBox(size: 1, penalty: 1, dimension: 2);
+            var defaultConfig = new ConfigPanoc(problemDimension: 2);
 
-            solver.Solve(new double[] { 1.0,1.0 });
+            var solver = new PANOCSolver(costFunction,constraint,defaultConfig);
+
+            var solution = solver.Solve(new double[] { 1.0,1.0 });
         }
     }
 }

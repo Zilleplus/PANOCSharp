@@ -1,16 +1,24 @@
 ﻿using kul.forbes.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace kul.forbes.domain
 {
     public class Function : IFunction
     {
+        private readonly Func<double[], (double, double[])> func;
+
+        public Function(
+            Func<double[],(double,double[])> func)
+        {
+            this.func = func;
+        }
+
         public (double cost, Vector<double> gradient) Evaluate(Vector<double> location)
         {
-            throw new NotImplementedException();
+            var (cost, gradient) = func(location.AsArray());
+
+            return (cost, Vector<double>.Build.Dense(gradient));
         }
     }
 }

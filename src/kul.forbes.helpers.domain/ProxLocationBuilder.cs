@@ -8,7 +8,9 @@ namespace kul.forbes.helpers.domain
         private readonly IFunction function;
         private readonly IProx prox;
 
-        public ProxLocationBuilder(IFunction function,IProx prox)
+        public ProxLocationBuilder(
+            IFunction function,
+            IProx prox)
         {
             this.function = function;
             this.prox = prox;

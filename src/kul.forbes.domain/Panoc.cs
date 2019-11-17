@@ -10,7 +10,7 @@ namespace kul.forbes.domain
     public class Panoc : IPanoc
     {
         private readonly IBuilder<Vector<double>, Location> locationBuilder;
-        private readonly IBuilder<Vector<double>, ProxLocation> proxLocationBuilder;
+        private readonly IBuilder<Location,double, ProxLocation> proxLocationBuilder;
         private readonly ICalculator<Location, ProximalGradient> proxCalculator;
         private readonly IAccelerator accelerator;
         private readonly IConfigPanoc config;
@@ -18,7 +18,7 @@ namespace kul.forbes.domain
 
         public Panoc(
             IBuilder<Vector<double>,Location> locationBuilder,
-            IBuilder<Vector<double>,ProxLocation> proxLocationBuilder,
+            IBuilder<Location,double,ProxLocation> proxLocationBuilder,
             ICalculator<Location, ProximalGradient> proxCalculator,
             IAccelerator accelerator,
             IConfigPanoc config,
@@ -58,7 +58,7 @@ namespace kul.forbes.domain
                     + accelerationStep * tau(i);
 
                 if (LineSearchCondition(prox))
-                    return (0.0, proxLocationBuilder.Build(step + location.Position));
+                    return (proxLocationBuilder.Build(step + location.Position,gamma:0.0 ));
             }
 
             return (0.0,prox.ProxLocation);

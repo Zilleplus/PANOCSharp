@@ -7,14 +7,20 @@ namespace kul.forbes.domain
 {
     public class ConfigPanoc : IConfigPanoc
     {
-        public int CacheSize => throw new NotImplementedException();
+        public ConfigPanoc(int problemDimension)
+        {
+            ProblemDimension = problemDimension;
+        }
+        public int CacheSize { get; set; } = 10;
 
-        public int ProblemDimension => throw new NotImplementedException();
+        public int ProblemDimension { get; }
 
-        public double LipschitzSafetyValue => throw new NotImplementedException();
+        public double LipschitzSafetyValue { get; set; } = 0;
 
-        public double Delta => throw new NotImplementedException();
+        public double Delta { get; set; } = 0;
 
-        public double SafetyValueLineSearch => throw new NotImplementedException();
+        public double SafetyValueLineSearch { get; set; } = 0;
+
+        public bool EnableLogging { get; set; } = false;
     }
 }

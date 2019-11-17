@@ -7,6 +7,6 @@ namespace kul.forbes.contracts.configs
 {
     public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient
     {
-        
+        bool EnableLogging { get; } 
     }
 }

@@ -7,7 +7,6 @@ namespace kul.forbes.helpers.domain
 {
     public class ForwardBackwardEnvelopCalculator : ICalculator<ProximalGradient,double>
     {
-        private readonly ICalculator<Location, ProxLocation> proxCalculator;
         private readonly IConfigForwardBackwardEnvelop config;
         private readonly ICalculator<ProximalGradient, Vector<double>> residualCalculator;
 

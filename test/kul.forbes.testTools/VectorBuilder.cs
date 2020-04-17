@@ -6,7 +6,7 @@ using System.Text;
 
 namespace kul.forbes.testTools
 {
-    public class VectorBuilder : IBuilder<Vector<double>>
+    public class VectorBuilder 
     {
         private List<double> vector = new List<double>();
 

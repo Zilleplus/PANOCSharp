@@ -2,6 +2,7 @@
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
 using kul.forbes.helpers.contracts;
+using kul.forbes.helpers.domain;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 
@@ -9,64 +10,72 @@ namespace kul.forbes.domain
 {
     public class Panoc : IPanoc
     {
-        private readonly IBuilder<Vector<double>, Location> locationBuilder;
-        private readonly IBuilder<Location,double, ProxLocation> proxLocationBuilder;
-        private readonly ICalculator<Location, ProximalGradient> proxCalculator;
+        private readonly LocationBuilder locationBuilder;
+        private readonly ProximalGradientCalculator proxCalculator;
         private readonly IAccelerator accelerator;
-        private readonly IConfigPanoc config;
-        private readonly ILogger logger;
 
         public Panoc(
-            IBuilder<Vector<double>,Location> locationBuilder,
-            IBuilder<Location,double,ProxLocation> proxLocationBuilder,
-            ICalculator<Location, ProximalGradient> proxCalculator,
+            LocationBuilder locationBuilder,
+            ProximalGradientCalculator proxCalculator,
             IAccelerator accelerator,
-            IConfigPanoc config,
             ILogger logger)
         {
             this.locationBuilder = locationBuilder;
-            this.proxLocationBuilder = proxLocationBuilder;
             this.proxCalculator = proxCalculator;
             this.accelerator = accelerator;
-            this.config = config;
-            this.logger = logger;
         }
 
-        public Vector<double> Solve(Vector<double> initLocation)
+        public Vector<double> Solve(
+            Vector<double> initLocation,
+            int maxIterations, 
+            double minResidual)
         {
-            var location = locationBuilder.Build(initLocation);
             var residual = double.MaxValue;
+            var prox = proxCalculator.Calculate(locationBuilder.Build(initLocation));
+            var fbe = ForwardBackwardEnvelop.Calculate(prox);
 
-            var maxIter = 10;
-            for (int i = 0; i < maxIter && residual>1e-3; i++)
+            for (int i = 0; i < maxIterations && residual>minResidual; i++)
             {
-                (residual, location) = Search(location);
+                var oldLocation = prox.Location;
+                if (accelerator.HasCache) // there is accelstep then we can improve stuff
+                {
+                    (residual, prox, fbe) = Search(prox, fbe);
+                }
+                else 
+                {
+                    prox = proxCalculator.Calculate(prox.ProxLocation);
+                }
+                accelerator.Update(oldLocation: oldLocation, newLocation: prox.Location);
             }
 
-            return location.Position;
+            return prox.Location.Position;
         }
 
-        private (double residual ,Location newLocation) Search(Location location)
+        private static Vector<double> Residual(ProximalGradient prox)
+            => ((prox.Location.Position - prox.ProxLocation.Position) / prox.ProxLocation.Gamma);
+
+        private (double residual ,ProximalGradient prox,double fbe) 
+            Search(ProximalGradient prox, double fbe)
         {
-            var prox = proxCalculator.Calculate(location);
             Func<int, double> tau = i => Math.Pow(2.0, i);
-            for (int i = 0; i < 4; i++)
+            var accelerationStep = accelerator.GetStep(prox.Location);
+            for (int i = 0; i < 10; i++) // FBE_LINESEARCH_MAX_ITERATIONS=10
             {
-                var accelerationStep = accelerator.GetStep(prox.Location);
                 var step = prox.Location.Position
                     + (prox.ProxLocation.Position - prox.Location.Position) * (1-tau(i))
                     + accelerationStep * tau(i);
 
-                if (LineSearchCondition(prox))
-                    return (proxLocationBuilder.Build(step + location.Position,gamma:0.0 ));
+                var newProx = proxCalculator.Calculate(locationBuilder.Build(step));
+                var newFbe = ForwardBackwardEnvelop.Calculate(newProx);
+
+                if (newFbe< fbe)
+                {
+                    return ((Residual(newProx).InfinityNorm(),newProx,newFbe));
+                }
             }
-
-            return (0.0,prox.ProxLocation);
-        }
-
-        private bool LineSearchCondition(ProximalGradient proximalGradient)
-        {
-            throw new NotImplementedException();
+            // use only proximal gradient, no accelerator
+            var pureProx = proxCalculator.Calculate(prox.ProxLocation);
+            return (Residual(pureProx).InfinityNorm(),pureProx,ForwardBackwardEnvelop.Calculate(pureProx));
         }
     }
 }

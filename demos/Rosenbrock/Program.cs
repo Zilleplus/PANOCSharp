@@ -17,6 +17,8 @@ namespace Rosenbrock
             var solver = new PANOCSolver(costFunction,constraint,defaultConfig);
 
             var solution = solver.Solve(new double[] { 1.0,1.0 });
+
+            Console.WriteLine($"Solved with solution: [{solution[0]};{solution[1]}]");
         }
     }
 }

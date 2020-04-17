@@ -7,16 +7,13 @@ namespace kul.forbes.domain
     public class NormBox : IProx    
     {
         private readonly int dimension;
-        private readonly double penality;
         private readonly double offSet;
 
         public NormBox(
             int dimension,
-            double penality,
             double offSet)
         {
             this.dimension = dimension;
-            this.penality = penality;
             this.offSet = offSet;
         }
 

@@ -4,9 +4,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace kul.forbes.helpers.domain
 {
-    public class LocationBuilder : 
-        IBuilder<Vector<double>, Location>,
-        IBuilder<double[],Location>
+    public class LocationBuilder
     {
         private readonly IFunction function;
 

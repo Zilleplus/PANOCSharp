@@ -23,7 +23,7 @@ namespace kul.forbes.API
             var builder = new ContainerBuilder();
             builder.RegisterModule<PanocModule>();// internal stuff 
 
-            builder.RegisterInstance(config).As<IConfigPanoc>(); // consult docs for details on all the parameters
+            builder.RegisterInstance(config).AsImplementedInterfaces(); // consult docs for details on all the parameters
             builder.RegisterInstance(costFunction).As<IFunction>();
             builder.RegisterInstance(proxCostFunction).As<IProx>();
             if (!config.EnableLogging)
@@ -35,15 +35,13 @@ namespace kul.forbes.API
                 throw new NotImplementedException();
             }
 
-
             var container = builder.Build();
-
             solver = container.Resolve<IPanoc>();
         }
 
-        public double[] Solve(double[] startLocation)
-        {
-            return solver.Solve(Vector<double>.Build.DenseOfArray(startLocation)).ToArray();
-        }
+        public double[] Solve(double[] startLocation,int maxIterations=100,double minResidual=1e-3)
+            => solver
+                .Solve(Vector<double>.Build.DenseOfArray(startLocation),maxIterations,minResidual)
+                .ToArray();
     }
 }

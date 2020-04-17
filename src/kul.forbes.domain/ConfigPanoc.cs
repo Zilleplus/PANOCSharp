@@ -15,11 +15,11 @@ namespace kul.forbes.domain
 
         public int ProblemDimension { get; }
 
-        public double LipschitzSafetyValue { get; set; } = 0;
+        public double LipschitzSafetyValue { get; set; } = 1e-6;
 
-        public double Delta { get; set; } = 0;
+        public double Delta { get; set; } = 1e-12;
 
-        public double SafetyValueLineSearch { get; set; } = 0;
+        public double SafetyValueLineSearch { get; set; } = 0.05;
 
         public bool EnableLogging { get; set; } = false;
     }

@@ -34,6 +34,12 @@ namespace kul.forbes.helpers.domain.Accelerators
             cursor = 0;
         }
 
+        public bool HasCache { get { return activeCacheSize != 0; }  }
+
+        /// <summary>
+        /// Calculates to step towards the minima
+        /// --> if no updates have been made, it returns -gradient
+        /// </summary>
         public Vector<double> GetStep(Location location)
         {
             if (activeCacheSize == 0) return -location.Cost.Gradient;

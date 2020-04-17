@@ -5,7 +5,7 @@ using System.Text;
 
 namespace kul.forbes.contracts.configs
 {
-    public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient
+    public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient, IConfigForwardBackwardEnvelop
     {
         bool EnableLogging { get; } 
     }

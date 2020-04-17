@@ -9,13 +9,11 @@ namespace kul.forbes.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<LocationBuilder>().AsImplementedInterfaces();
+            builder.RegisterType<LocationBuilder>();
             builder.RegisterType<LipschitzEstimator>().AsImplementedInterfaces();
-            builder.RegisterType<ProxLocationBuilder>().AsImplementedInterfaces();
-            builder.RegisterType<ProximalGradientCalculator>().AsImplementedInterfaces();
-            builder.RegisterType<ResidualCalculator>().AsImplementedInterfaces();
+            builder.RegisterType<ProxLocationBuilder>();
+            builder.RegisterType<ProximalGradientCalculator>();
             builder.RegisterType<LBFGS>().SingleInstance().AsImplementedInterfaces();
-            builder.RegisterType<ForwardBackwardEnvelopCalculator>().AsImplementedInterfaces();
             builder.RegisterType<Panoc>().AsImplementedInterfaces();
         }
     }

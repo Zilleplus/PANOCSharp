@@ -11,5 +11,7 @@ namespace kul.forbes.helpers.contracts
         Vector<double> GetStep(Location location);
 
         bool Update(Location oldLocation,Location newLocation);
+
+        bool HasCache { get;  }
     }
 }

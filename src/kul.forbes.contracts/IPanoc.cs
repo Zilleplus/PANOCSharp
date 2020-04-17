@@ -7,6 +7,6 @@ namespace kul.forbes.contracts
 {
     public interface IPanoc
     {
-        Vector<double> Solve(Vector<double> location);
+        Vector<double> Solve(Vector<double> location,int maxInterations,double minResidual);
     }
 }

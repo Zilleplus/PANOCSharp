@@ -32,7 +32,7 @@ namespace kul.forbes.helpers.test
                     (x) => degree*x.PointwisePower(degree-1))
                 .Build()
                 .Object;
-            var proximalOperator = new NormBox(dimension: 2, penality: 1e10, offSet: 2);
+            var proximalOperator = new NormBox(dimension: 2, offSet: 2);
             var locationBuilder = new LocationBuilder(poly);
 
             var sut = new ProximalGradientCalculator(

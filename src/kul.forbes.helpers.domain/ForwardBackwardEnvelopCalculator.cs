@@ -5,33 +5,25 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace kul.forbes.helpers.domain
 {
-    public class ForwardBackwardEnvelopCalculator : ICalculator<ProximalGradient,double>
+    public class ForwardBackwardEnvelop
     {
-        private readonly IConfigForwardBackwardEnvelop config;
-        private readonly ICalculator<ProximalGradient, Vector<double>> residualCalculator;
-
-        public ForwardBackwardEnvelopCalculator(
-            IConfigForwardBackwardEnvelop config,
-            ICalculator<ProximalGradient, Vector<double>> residualCalculator,
-            ILogger logger)
-        {
-            this.config = config;
-            this.residualCalculator = residualCalculator;
-        }
+        private static Vector<double> Residual(ProximalGradient prox)  
+            => ((prox.Location.Position - prox.ProxLocation.Position) / prox.ProxLocation.Gamma) ;
 
         /*
          * calculate the forward backward envelop using the internal gamma
          * Matlab cache.FBE = cache.fx + cache.gz - cache.gradfx(:)'*cache.FPR(:)
          * + (0.5/gam)*(cache.normFPR^2);
          */
-        public double Calculate(ProximalGradient proxGradient)
+        public static double Calculate(ProximalGradient proxGradient)
         {
             (var fx, var df) = proxGradient.Location.Cost;
+            var direction = proxGradient.Location.Position - proxGradient.ProxLocation.Position;
 
             return fx
                 + proxGradient.ProxLocation.Constraint.Cost
-                - df.DotProduct(residualCalculator.Calculate(proxGradient))
-                + (1 / (proxGradient.ProxLocation.Gamma * 2));
+                - df.DotProduct(direction)
+                + (1 / (proxGradient.ProxLocation.Gamma * 2))*(direction.DotProduct(direction));
         }
     }
 }

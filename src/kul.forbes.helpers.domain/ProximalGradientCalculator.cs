@@ -6,17 +6,16 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace kul.forbes.helpers.domain
 {
-    public class ProximalGradientCalculator : 
-        ICalculator<Location, ProximalGradient>
+    public class ProximalGradientCalculator 
     {
         private readonly IConfigProximalGradient config;
         private readonly ILipschitzEstimator lipschitzEstimator;
-        private readonly IBuilder<Location,double, ProxLocation> proxLocationBuilder;
+        private readonly ProxLocationBuilder proxLocationBuilder;
 
         public ProximalGradientCalculator(
             IConfigProximalGradient config,
             ILipschitzEstimator lipschitzEstimator,
-            IBuilder<Location,double,ProxLocation> proxLocationBuilder,
+            ProxLocationBuilder proxLocationBuilder,
             ILogger logger)
         {
             this.config = config;

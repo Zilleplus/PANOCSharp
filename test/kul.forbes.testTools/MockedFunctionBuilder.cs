@@ -7,7 +7,7 @@ using System.Text;
 
 namespace kul.forbes.testTools
 {
-    public class MockedFunctionBuilder : IBuilder<Mock<IFunction>>
+    public class MockedFunctionBuilder
     {
         private Mock<IFunction> mock = new Mock<IFunction>();
 

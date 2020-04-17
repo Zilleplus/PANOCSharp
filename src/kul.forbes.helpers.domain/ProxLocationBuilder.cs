@@ -3,7 +3,7 @@ using kul.forbes.entities;
 
 namespace kul.forbes.helpers.domain
 {
-    public class ProxLocationBuilder : IBuilder<Location,double,ProxLocation>
+    public class ProxLocationBuilder 
     {
         private readonly IFunction function;
         private readonly IProx prox;

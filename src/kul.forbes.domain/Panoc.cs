@@ -8,30 +8,32 @@ using System;
 
 namespace kul.forbes.domain
 {
-    public class Panoc : IPanoc
+    public class Panoc 
     {
-        private readonly LocationBuilder locationBuilder;
-        private readonly ProximalGradientCalculator proxCalculator;
         private readonly IAccelerator accelerator;
+        private readonly IConfigPanoc config;
 
         public Panoc(
-            LocationBuilder locationBuilder,
-            ProximalGradientCalculator proxCalculator,
             IAccelerator accelerator,
-            ILogger logger)
+            IConfigPanoc config) 
         {
-            this.locationBuilder = locationBuilder;
-            this.proxCalculator = proxCalculator;
             this.accelerator = accelerator;
+            this.config = config;
         }
 
         public Vector<double> Solve(
             Vector<double> initLocation,
             int maxIterations, 
-            double minResidual)
+            double minResidual,
+            IFunction function,
+            IProx proxFunction)
         {
             var residual = double.MaxValue;
-            var prox = proxCalculator.Calculate(locationBuilder.Build(initLocation));
+            var prox = ProximalGradientStep.Calculate(
+                LocationBuilder.Build(function,initLocation),
+                config,
+                function,
+                proxFunction);
             var fbe = ForwardBackwardEnvelop.Calculate(prox);
 
             for (int i = 0; i < maxIterations && residual>minResidual; i++)
@@ -39,11 +41,11 @@ namespace kul.forbes.domain
                 var oldLocation = prox.Location;
                 if (accelerator.HasCache) // there is accelstep then we can improve stuff
                 {
-                    (residual, prox, fbe) = Search(prox, fbe);
+                    (residual, prox, fbe) = Search(prox, fbe,function,proxFunction);
                 }
                 else 
                 {
-                    prox = proxCalculator.Calculate(prox.ProxLocation);
+                    prox = ProximalGradientStep.Calculate(prox.ProxLocation,config,function,proxFunction);
                 }
                 accelerator.Update(oldLocation: oldLocation, newLocation: prox.Location);
             }
@@ -55,7 +57,7 @@ namespace kul.forbes.domain
             => ((prox.Location.Position - prox.ProxLocation.Position) / prox.ProxLocation.Gamma);
 
         private (double residual ,ProximalGradient prox,double fbe) 
-            Search(ProximalGradient prox, double fbe)
+            Search(ProximalGradient prox, double fbe,IFunction function,IProx proxFunc)
         {
             Func<int, double> tau = i => Math.Pow(2.0, i);
             var accelerationStep = accelerator.GetStep(prox.Location);
@@ -65,7 +67,7 @@ namespace kul.forbes.domain
                     + (prox.ProxLocation.Position - prox.Location.Position) * (1-tau(i))
                     + accelerationStep * tau(i);
 
-                var newProx = proxCalculator.Calculate(locationBuilder.Build(step));
+                var newProx = ProximalGradientStep.Calculate(LocationBuilder.Build(function,step),config,function,proxFunc);
                 var newFbe = ForwardBackwardEnvelop.Calculate(newProx);
 
                 if (newFbe< fbe)
@@ -74,7 +76,7 @@ namespace kul.forbes.domain
                 }
             }
             // use only proximal gradient, no accelerator
-            var pureProx = proxCalculator.Calculate(prox.ProxLocation);
+            var pureProx = ProximalGradientStep.Calculate(prox.ProxLocation,config,function,proxFunc);
             return (Residual(pureProx).InfinityNorm(),pureProx,ForwardBackwardEnvelop.Calculate(pureProx));
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
-using kul.forbes.API;
 using kul.forbes.domain;
+using kul.forbes.panocsharp;
 
 namespace Rosenbrock
 {
@@ -15,7 +15,6 @@ namespace Rosenbrock
             var defaultConfig = new ConfigPanoc(problemDimension: 2);
 
             var solver = new PANOCSolver(costFunction,constraint,defaultConfig);
-
             var solution = solver.Solve(new double[] { 1.0,1.0 });
 
             Console.WriteLine($"Solved with solution: [{solution[0]};{solution[1]}]");

@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\kul.forbes.API\kul.forbes.API\kul.forbes.API.csproj" />
     <ProjectReference Include="..\..\src\kul.forbes.contracts\kul.forbes.contracts.csproj" />
     <ProjectReference Include="..\..\src\kul.forbes.domain\kul.forbes.domain.csproj" />
     <ProjectReference Include="..\..\src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj" />
     <ProjectReference Include="..\..\src\kul.forbes.helpers.domain\kul.forbes.helpers.domain.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj" />
     <ProjectReference Include="..\kul.forbes.testTools\kul.forbes.testTools.csproj" />
   </ItemGroup>
 

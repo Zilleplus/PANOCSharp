@@ -3,20 +3,13 @@ using kul.forbes.entities;
 
 namespace kul.forbes.helpers.domain
 {
-    public class ProxLocationBuilder 
+    public static class ProxLocationBuilder 
     {
-        private readonly IFunction function;
-        private readonly IProx prox;
-
-        public ProxLocationBuilder(
-            IFunction function,
-            IProx prox)
-        {
-            this.function = function;
-            this.prox = prox;
-        }
-
-        public ProxLocation Build(Location location,double gamma)
+        public static ProxLocation Build(
+            Location location,
+            double gamma,
+            IProx prox,
+            IFunction function)
         {
             var newLocation = location.Position - gamma * location.Cost.Gradient;
             return new ProxLocation(

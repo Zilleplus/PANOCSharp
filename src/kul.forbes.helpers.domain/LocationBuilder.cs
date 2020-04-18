@@ -6,20 +6,10 @@ namespace kul.forbes.helpers.domain
 {
     public class LocationBuilder
     {
-        private readonly IFunction function;
+        public static Location Build(IFunction function,Vector<double> input)
+            => new Location(function.Evaluate(input), input);
 
-        public LocationBuilder(
-            IFunction function)
-        {
-            this.function = function;
-        }
-
-        public Location Build(Vector<double> input)
-        {
-            return new Location(function.Evaluate(input), input);
-        }
-
-        public Location Build(params double[] input)
-            => Build(Vector<double>.Build.DenseOfArray(input));
+        public static Location Build(IFunction function,params double[] input)
+            => Build(function,Vector<double>.Build.DenseOfArray(input));
     }
 }

@@ -1,5 +1,5 @@
-﻿using kul.forbes.API;
-using kul.forbes.domain;
+﻿using kul.forbes.domain;
+using kul.forbes.panocsharp;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
 using Xunit;
@@ -25,7 +25,10 @@ namespace kul.forbes.helpers.test
             var defaultConfig = new ConfigPanoc(problemDimension: 2);
 
             var solver = new PANOCSolver(costFunction,constraint,defaultConfig);
-            var solution = solver.Solve(new double[] { 0.5,0.5 },maxIterations:numberOfIterations,minResidual:1e-15);
+            var solution = solver.Solve(
+                new double[] { 0.5,0.5 },
+                maxIterations:numberOfIterations,
+                minResidual:1e-15);
 
             var expected = Vector<double>.Build.Dense(new[] { 0.221282, 0.221282 }); // answers taken from the C-code
             Assert.Equal(expected: expected[0], actual: solution[0], precision: 6);
@@ -49,7 +52,10 @@ namespace kul.forbes.helpers.test
             var defaultConfig = new ConfigPanoc(problemDimension: 2);
 
             var solver = new PANOCSolver(costFunction,constraint,defaultConfig);
-            var solution = solver.Solve(new double[] { 1,1 },maxIterations:numberOfIterations,minResidual:1e-15);
+            var solution = solver.Solve(
+                new double[] { 1,1 },
+                maxIterations:numberOfIterations,
+                minResidual:1e-15);
 
             var expected = Vector<double>.Build.Dense(new[] { 0.204269, 0.204269}); // answers taken from the C-code
             Assert.Equal(expected: expected[0], actual: solution[0], precision: 6);

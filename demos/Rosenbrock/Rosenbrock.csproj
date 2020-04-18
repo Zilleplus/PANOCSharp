@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\kul.forbes.API\kul.forbes.API\kul.forbes.API.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj" />
   </ItemGroup>
 </Project>

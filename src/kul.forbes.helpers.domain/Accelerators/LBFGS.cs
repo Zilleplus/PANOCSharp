@@ -12,7 +12,6 @@ namespace kul.forbes.helpers.domain.Accelerators
     public class LBFGS : IAccelerator
     {
         private readonly IConfigLBFGS config;
-        private readonly ILogger logger;
         private Matrix<double> s;
         private Matrix<double> y;
 
@@ -21,12 +20,9 @@ namespace kul.forbes.helpers.domain.Accelerators
 
         double hessianEstimate;
 
-        public LBFGS(
-            IConfigLBFGS config,
-            ILogger logger)
+        public LBFGS( IConfigLBFGS config )
         {
             this.config = config;
-            this.logger = logger;
             s = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             y = Matrix<double>.Build.Dense(config.ProblemDimension,config.CacheSize);
             

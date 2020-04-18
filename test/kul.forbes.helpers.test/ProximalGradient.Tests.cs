@@ -33,20 +33,18 @@ namespace kul.forbes.helpers.test
                 .Build()
                 .Object;
             var proximalOperator = new NormBox(dimension: 2, offSet: 2);
-            var locationBuilder = new LocationBuilder(poly);
 
-            var sut = new ProximalGradientCalculator(
-                new ProxConfig(),
-                new LipschitzEstimator(poly, new ProxConfig(), default),
-                new ProxLocationBuilder(poly, proximalOperator),
-                default);
+            //var sut = new ProximalGradientStep(
+            //    new ProxConfig(),
+            //    new ProxLocationBuilder(poly, proximalOperator),
+            //    default);
 
-            var init = locationBuilder.Build(0.5, 0.5);
-            var location = sut.Calculate(init).ProxLocation;
+            var init = LocationBuilder.Build(poly,0.5, 0.5);
+            var location = ProximalGradientStep.Calculate(init,new ProxConfig(),poly,proximalOperator).ProxLocation;
             var loops = Enumerable.Range(0, numberOfIterations)
                 .Select(i=> 
                 {
-                    location = sut.Calculate(location).ProxLocation;
+                    location = ProximalGradientStep.Calculate(location,new ProxConfig(),poly,proximalOperator).ProxLocation;
                     return location.Position.ToArray();
                 })
                 .ToList();

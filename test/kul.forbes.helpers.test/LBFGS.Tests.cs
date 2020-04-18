@@ -45,22 +45,18 @@ namespace kul.forbes.helpers.test
                 .Build()
                 .Object;
 
-            var sut = new LBFGS(
-                new RosenConfig(),
-                default(ILogger));
+            var sut = new LBFGS( new RosenConfig() );
 
             var startLocationVector =  new VectorBuilder()
                 .WithElements(-1.2, 1)
                 .Build();
 
-            var locationBuilder = new LocationBuilder(rosen);
-
-            var location = locationBuilder.Build(startLocationVector);
+            var location = LocationBuilder.Build(rosen,startLocationVector);
             var res = Enumerable
                 .Range(0, 4)
                 .Select(i =>
                 {
-                    var newLocation = locationBuilder.Build(location.Position + sut.GetStep(location));
+                    var newLocation = LocationBuilder.Build(rosen,location.Position + sut.GetStep(location));
                     sut.Update(location,newLocation);
 
                     location = newLocation;

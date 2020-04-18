@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace kul.forbes.contracts
+namespace kul.forbes.helpers.test
 {
-    public interface ILogger
+    class FBETest
     {
     }
 }

@@ -30,7 +30,7 @@ namespace kul.forbes.domain
         {
             var residual = double.MaxValue;
             var prox = ProximalGradientStep.Calculate(
-                LocationBuilder.Build(function,initLocation),
+                new Location(initLocation,function.Evaluate(initLocation)),
                 config,
                 function,
                 proxFunction);
@@ -67,7 +67,11 @@ namespace kul.forbes.domain
                     + (prox.ProxLocation.Position - prox.Location.Position) * (1-tau(i))
                     + accelerationStep * tau(i);
 
-                var newProx = ProximalGradientStep.Calculate(LocationBuilder.Build(function,step),config,function,proxFunc);
+                var newProx = ProximalGradientStep.Calculate(
+                    new Location(step,function.Evaluate(step)),
+                    config,
+                    function,
+                    proxFunc);
                 var newFbe = ForwardBackwardEnvelop.Calculate(newProx);
 
                 if (newFbe< fbe)

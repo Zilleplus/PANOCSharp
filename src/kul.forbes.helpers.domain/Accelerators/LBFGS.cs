@@ -38,9 +38,9 @@ namespace kul.forbes.helpers.domain.Accelerators
         /// </summary>
         public Vector<double> GetStep(Location location)
         {
-            if (activeCacheSize == 0) return -location.Cost.Gradient;
+            if (activeCacheSize == 0) return -location.Evaluated.Gradient;
 
-            var outputDirection = location.Cost.Gradient;
+            var outputDirection = location.Evaluated.Gradient;
             var rho = Vector<double>.Build.Dense(config.CacheSize);
             var alpha = Vector<double>.Build.Dense(config.CacheSize);
 
@@ -76,10 +76,10 @@ namespace kul.forbes.helpers.domain.Accelerators
         public bool Update(Location oldLocation,Location newLocation)
         {
             var potentialS = newLocation.Position - oldLocation.Position;
-            var potentialY = newLocation.Cost.Gradient - oldLocation.Cost.Gradient;
+            var potentialY = newLocation.Evaluated.Gradient - oldLocation.Evaluated.Gradient;
 
             var safetyValueCarefullUpdate = potentialS.DotProduct(potentialY) / potentialS.DotProduct(potentialS);
-            if (safetyValueCarefullUpdate > oldLocation.Cost.Gradient.Norm(2) * 1e-12)
+            if (safetyValueCarefullUpdate > oldLocation.Evaluated.Gradient.Norm(2) * 1e-12)
             {
                 for (int i = 0; i < s.RowCount; i++)
                 {

@@ -21,7 +21,7 @@ namespace kul.forbes.helpers.domain
         public static double Estimate(Location location,IConfigLipschitzEstimator config, IFunction function)
         {
             var delta = GetDelta(location.Position,config);
-            return (location.Cost.Gradient- function.Evaluate(location.Position+delta).gradient).Norm(2)
+            return (location.Evaluated.Gradient- function.Evaluate(location.Position+delta).gradient).Norm(2)
                 / ((delta).Norm(2));
         }
     }

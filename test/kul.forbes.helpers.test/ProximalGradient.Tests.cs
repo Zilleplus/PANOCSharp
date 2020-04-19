@@ -1,6 +1,7 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
 using kul.forbes.domain;
+using kul.forbes.entities;
 using kul.forbes.helpers.domain;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
@@ -34,12 +35,10 @@ namespace kul.forbes.helpers.test
                 .Object;
             var proximalOperator = new NormBox(dimension: 2, offSet: 2);
 
-            //var sut = new ProximalGradientStep(
-            //    new ProxConfig(),
-            //    new ProxLocationBuilder(poly, proximalOperator),
-            //    default);
-
-            var init = LocationBuilder.Build(poly,0.5, 0.5);
+            var initPosition = new double[] { 0.5, 0.5 };
+            var init = new Location(
+                position:Vector<double>.Build.DenseOfArray(initPosition),
+                evaluated: poly.Evaluate( Vector<double>.Build.DenseOfArray(initPosition)));
             var location = ProximalGradientStep.Calculate(init,new ProxConfig(),poly,proximalOperator).ProxLocation;
             var loops = Enumerable.Range(0, numberOfIterations)
                 .Select(i=> 

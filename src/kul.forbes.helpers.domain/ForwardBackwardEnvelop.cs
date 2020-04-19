@@ -17,7 +17,7 @@ namespace kul.forbes.helpers.domain
          */
         public static double Calculate(ProximalGradient proxGradient)
         {
-            (var fx, var df) = proxGradient.Location.Cost;
+            (var fx, var df) = proxGradient.Location.Evaluated;
             var direction = proxGradient.Location.Position - proxGradient.ProxLocation.Position;
 
             return fx

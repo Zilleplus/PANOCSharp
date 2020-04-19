@@ -13,8 +13,8 @@ namespace kul.forbes.helpers.domain
             ProxLocation newLocation,
             double safetyValueLineSearch)
         {
-            (double f, Vector<double> df) = location.Cost;
-            (double fNew, Vector<double> dfNew) = newLocation.Cost;
+            (double f, Vector<double> df) = location.Evaluated;
+            (double fNew, Vector<double> dfNew) = newLocation.Evaluated;
             var directionSquaredNorm = (location.Position - newLocation.Position)
                 .DotProduct(location.Position - newLocation.Position);
 
@@ -33,11 +33,11 @@ namespace kul.forbes.helpers.domain
                 ? (location as ProxLocation).Gamma
                 : (1 - config.SafetyValueLineSearch) / LipschitzEstimator.Estimate(location,config,function);
 
-            var newLocation = ProxLocationBuilder.Build(location, gamma,prox,function);
+            var newLocation = new ProxLocation(location: location, gamma: gamma, prox.Prox(location.Position));
             while (!LineSearchCondition(location, newLocation,config.SafetyValueLineSearch))
             {
                 gamma = gamma / 2;
-                newLocation = ProxLocationBuilder.Build(location, gamma,prox,function);
+                newLocation = new ProxLocation(location: location, gamma: gamma, prox.Prox(location.Position));
             }
 
             return new ProximalGradient(location,newLocation);

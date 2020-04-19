@@ -4,16 +4,21 @@ namespace kul.forbes.entities
 {
     public class Location
     {
-        public (double Value, Vector<double> Gradient) Cost { get; }
-
-        public Vector<double> Position { get;  }
-
         public Location(
-            (double Value, Vector<double> Gradient) cost,
-            Vector<double> position)
+            Vector<double> position,
+            (double cost, Vector<double> Gradient) evaluated)
         {
-            Cost = cost;
             Position = position;
+            Evaluated = evaluated;
         }
+
+        public Location(Location loc)
+        {
+            Position = loc.Position;
+            Evaluated = loc.Evaluated;
+        }
+
+        public Vector<double> Position { get; }
+        public (double cost, Vector<double> Gradient) Evaluated { get; }
     }
 }

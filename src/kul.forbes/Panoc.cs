@@ -56,6 +56,8 @@ namespace kul.forbes
             for (int i = 0; i < maxIterations && residual>minResidual; i++)
             {
                 var oldProx = prox;
+
+                var oldGamma = prox.ProxLocation.Gamma;
                 if (accelerator.HasCache) // If there is accelstep(which needs previous runs) then we can improve stuff
                 {
                     (residual, prox, fbe,tau) = Search(prox, fbe,function,proxFunction,config,accelerator.GetStep(prox.Location));
@@ -66,6 +68,7 @@ namespace kul.forbes
                 }
                 // This update doesn't always mean that the cache will be updated,
                 // the lbfgs does a carefull update and will refuse some updates due to beein badly conditioned
+                if (oldGamma != prox.ProxLocation.Gamma) { accelerator.Reset(); }
                 var cacheUpdated = accelerator.Update(oldLocation: oldProx.Location, newLocation: prox.Location);
 
                 if (diagnosticsEnabled) { diagnostics.Add(new PanocDiagnostics(tau: tau, prox,oldProx)); }
@@ -87,6 +90,7 @@ namespace kul.forbes
             Vector<double> accelerationStep)
         {
             Func<int, double> tau = i => Math.Pow(2.0, i);
+            bool acceleratorResetRequired = false;
             for (int i = 0; i < config.FBEMaxIterations; i++) 
             {
                 var step = prox.Location.Position

@@ -31,6 +31,12 @@ namespace kul.forbes.helpers.Accelerators
 
         public bool HasCache { get { return activeCacheSize != 0; }  }
 
+        public void Reset()
+        {
+            activeCacheSize = 0;
+            cursor = 0;
+        }
+
         /// <summary>
         /// Calculates to step towards the minima
         /// --> if no updates have been made, it returns -gradient

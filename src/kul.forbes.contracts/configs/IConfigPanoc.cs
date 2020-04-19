@@ -5,7 +5,7 @@ using System.Text;
 
 namespace kul.forbes.contracts.configs
 {
-    public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient, IConfigForwardBackwardEnvelop
+    public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient
     {
         /// <summary>
         /// The number of times the linesearch should backtrack.

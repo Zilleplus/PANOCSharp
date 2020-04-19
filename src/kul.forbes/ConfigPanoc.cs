@@ -14,7 +14,7 @@ namespace kul.forbes
 
         public double LipschitzSafetyValue { get; set; } = 1e-6;
 
-        public double Delta { get; set; } = 1e-12;
+        public double MinimumDelta { get; set; } = 1e-12;
 
         public double SafetyValueLineSearch { get; set; } = 0.05;
 

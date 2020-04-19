@@ -14,7 +14,7 @@ namespace kul.forbes.helpers.test
 
             public double LipschitzSafetyValue => 1e-6;
 
-            public double Delta => 1e-12;
+            public double MinimumDelta => 1e-12;
 
             public double minGammaValue => 10;
         }

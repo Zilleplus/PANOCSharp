@@ -90,7 +90,6 @@ namespace kul.forbes
             Vector<double> accelerationStep)
         {
             Func<int, double> tau = i => Math.Pow(2.0, i);
-            bool acceleratorResetRequired = false;
             for (int i = 0; i < config.FBEMaxIterations; i++) 
             {
                 var step = prox.Location.Position

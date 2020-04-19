@@ -11,7 +11,7 @@ namespace kul.forbes.helpers
         // Get the step used to estimate the lipschitz constant
         // -> delta= max{small number,10^{-6}*u_0}
         public static Vector<double> GetDelta(Vector<double>  location, IConfigLipschitzEstimator config)
-            => location.Map((val)=>Math.Max(config.LipschitzSafetyValue*val,config.Delta));
+            => location.Map((val)=>Math.Max(config.LipschitzSafetyValue*val,config.MinimumDelta));
 
         // Estimate the lipschitz constant by using the numerical hessian as an estimation
         // Theorem:

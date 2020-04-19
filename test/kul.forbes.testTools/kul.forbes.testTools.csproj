@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\kul.forbes.contracts\kul.forbes.contracts.csproj" />
-    <ProjectReference Include="..\..\src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj" />
+    <ProjectReference Include="..\..\src\kul.forbes\kul.forbes.csproj" />
   </ItemGroup>
 
 </Project>

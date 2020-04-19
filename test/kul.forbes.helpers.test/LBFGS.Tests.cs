@@ -1,8 +1,7 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
-using kul.forbes.helpers.domain;
-using kul.forbes.helpers.domain.Accelerators;
+using kul.forbes.helpers.Accelerators;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
 using System;

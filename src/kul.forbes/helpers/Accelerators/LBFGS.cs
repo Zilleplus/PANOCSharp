@@ -3,11 +3,10 @@ using kul.forbes.contracts.configs;
 using kul.forbes.entities;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
-using MoreLinq;
 using System;
 using System.Linq;
 
-namespace kul.forbes.helpers.domain.Accelerators
+namespace kul.forbes.helpers.Accelerators
 {
     public class LBFGS : IAccelerator
     {

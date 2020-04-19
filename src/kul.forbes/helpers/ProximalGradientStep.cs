@@ -1,10 +1,9 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
-using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace kul.forbes.helpers.domain
+namespace kul.forbes.helpers
 {
     public static class ProximalGradientStep
     {
@@ -33,14 +32,28 @@ namespace kul.forbes.helpers.domain
                 ? (location as ProxLocation).Gamma
                 : (1 - config.SafetyValueLineSearch) / LipschitzEstimator.Estimate(location,config,function);
 
-            var newLocation = new ProxLocation(location: location, gamma: gamma, prox.Prox(location.Position));
+            var newLocation = TakeProxStep(location,gamma,prox,function);
             while (!LineSearchCondition(location, newLocation,config.SafetyValueLineSearch))
             {
                 gamma = gamma / 2;
-                newLocation = new ProxLocation(location: location, gamma: gamma, prox.Prox(location.Position));
+                newLocation = TakeProxStep(location,gamma,prox,function);
             }
 
             return new ProximalGradient(location,newLocation);
+        }
+
+        public static ProxLocation TakeProxStep(
+            Location location,
+            double gamma,
+            IProx prox,
+            IFunction function)
+        {
+            var newPosition = location.Position - gamma * location.Evaluated.Gradient;
+            return new ProxLocation(
+                newPosition,
+                function.Evaluate(newPosition),
+                gamma,
+                prox.Prox(newPosition));
         }
     }
 }

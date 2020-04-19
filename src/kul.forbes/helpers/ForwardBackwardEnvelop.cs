@@ -3,7 +3,7 @@ using kul.forbes.contracts.configs;
 using kul.forbes.entities;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace kul.forbes.helpers.domain
+namespace kul.forbes.helpers
 {
     public class ForwardBackwardEnvelop
     {

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\kul.forbes.domain\kul.forbes.domain.csproj" />
+    <ProjectReference Include="..\kul.forbes\kul.forbes.csproj" />
   </ItemGroup>
 
 </Project>

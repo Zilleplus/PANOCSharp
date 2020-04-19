@@ -1,11 +1,8 @@
-﻿using kul.forbes.contracts;
-using kul.forbes.contracts.configs;
+﻿using kul.forbes.contracts.configs;
 using kul.forbes.domain;
 using kul.forbes.entities;
-using kul.forbes.helpers.domain;
 using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
-using MoreLinq;
 using System.Linq;
 using Xunit;
 

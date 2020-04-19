@@ -1,11 +1,10 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
-using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 
-namespace kul.forbes.helpers.domain
+namespace kul.forbes.helpers
 {
     public class LipschitzEstimator
     {

@@ -1,12 +1,12 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
+using kul.forbes.helpers;
 using kul.forbes.helpers.contracts;
-using kul.forbes.helpers.domain;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 
-namespace kul.forbes.domain
+namespace kul.forbes
 {
     public class Panoc 
     {

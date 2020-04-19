@@ -1,7 +1,6 @@
 ﻿using kul.forbes.contracts;
 using kul.forbes.contracts.configs;
-using kul.forbes.domain;
-using kul.forbes.helpers.domain.Accelerators;
+using kul.forbes.helpers.Accelerators;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace kul.forbes.panocsharp

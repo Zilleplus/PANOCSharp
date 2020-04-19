@@ -9,11 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F9D05B5D-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.contracts", "src\kul.forbes.contracts\kul.forbes.contracts.csproj", "{1A2B213C-070A-4AB1-8505-D861C087A3E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.domain", "src\kul.forbes.domain\kul.forbes.domain.csproj", "{562B0DB1-BC08-4245-9CDC-8F8A2213BB57}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.helpers.contracts", "src\kul.forbes.helpers.contracts\kul.forbes.helpers.contracts.csproj", "{CF85120F-3EA2-4287-9235-0031C724A171}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.helpers.domain", "src\kul.forbes.helpers.domain\kul.forbes.helpers.domain.csproj", "{FF32E50C-37B8-416C-8E6C-B01D1BB87B17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes", "src\kul.forbes\kul.forbes.csproj", "{562B0DB1-BC08-4245-9CDC-8F8A2213BB57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.testTools", "test\kul.forbes.testTools\kul.forbes.testTools.csproj", "{9E61C14E-F377-4912-9AD8-663741513189}"
 EndProject
@@ -25,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.helpers.test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.entities", "src\kul.forbes.entities\kul.forbes.entities.csproj", "{A3F69CE5-35B8-4BEE-B4A3-8453C8295200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kul.forbes.panocsharp", "src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj", "{549AEC5B-A5E1-4A43-BE20-24B814E4B753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.panocsharp", "src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj", "{549AEC5B-A5E1-4A43-BE20-24B814E4B753}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,14 +37,6 @@ Global
 		{562B0DB1-BC08-4245-9CDC-8F8A2213BB57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562B0DB1-BC08-4245-9CDC-8F8A2213BB57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562B0DB1-BC08-4245-9CDC-8F8A2213BB57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF85120F-3EA2-4287-9235-0031C724A171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF85120F-3EA2-4287-9235-0031C724A171}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF85120F-3EA2-4287-9235-0031C724A171}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF85120F-3EA2-4287-9235-0031C724A171}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF32E50C-37B8-416C-8E6C-B01D1BB87B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF32E50C-37B8-416C-8E6C-B01D1BB87B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF32E50C-37B8-416C-8E6C-B01D1BB87B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF32E50C-37B8-416C-8E6C-B01D1BB87B17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E61C14E-F377-4912-9AD8-663741513189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E61C14E-F377-4912-9AD8-663741513189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E61C14E-F377-4912-9AD8-663741513189}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,8 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1A2B213C-070A-4AB1-8505-D861C087A3E6} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
 		{562B0DB1-BC08-4245-9CDC-8F8A2213BB57} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
-		{CF85120F-3EA2-4287-9235-0031C724A171} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
-		{FF32E50C-37B8-416C-8E6C-B01D1BB87B17} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
 		{9E61C14E-F377-4912-9AD8-663741513189} = {F9D05B5D-656B-4565-8408-D6BDE592EDCE}
 		{DA931990-9649-480D-8ABF-3886250C0409} = {B3796EF9-8BD0-4F77-848D-332E193DB53B}
 		{65CF66F5-34DE-4915-A860-11A41DEFBAED} = {F9D05B5D-656B-4565-8408-D6BDE592EDCE}

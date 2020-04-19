@@ -2,7 +2,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using static System.Math;
 
-namespace kul.forbes.domain
+namespace kul.forbes
 {
     public class NormBox : IProx    
     {

@@ -33,7 +33,8 @@ namespace kul.forbes.helpers
                 : (1 - config.SafetyValueLineSearch) / LipschitzEstimator.Estimate(location,config,function);
 
             var newLocation = TakeProxStep(location,gamma,prox,function);
-            while (!LineSearchCondition(location, newLocation,config.SafetyValueLineSearch))
+            while (!LineSearchCondition(location, newLocation,config.SafetyValueLineSearch)
+                && (gamma/2 > config.minGammaValue))
             {
                 gamma = gamma / 2;
                 newLocation = TakeProxStep(location,gamma,prox,function);

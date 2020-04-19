@@ -1,9 +1,6 @@
 ﻿using kul.forbes.contracts.configs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace kul.forbes.domain
+namespace kul.forbes
 {
     public class ConfigPanoc : IConfigPanoc
     {
@@ -21,6 +18,8 @@ namespace kul.forbes.domain
 
         public double SafetyValueLineSearch { get; set; } = 0.05;
 
-        public bool EnableLogging { get; set; } = false;
+        public double minGammaValue { get; set; } = 1e-15;
+
+        public int FBEMaxIterations { get; set; }=10;
     }
 }

@@ -7,6 +7,6 @@ namespace kul.forbes.contracts
 {
     public interface IFunction
     {
-        (double cost, Vector<double> gradient) Evaluate(Vector<double> location);
+        (double cost, Vector<double> gradient) Evaluate(Vector<double> position);
     }
 }

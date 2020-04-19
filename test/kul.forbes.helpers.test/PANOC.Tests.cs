@@ -1,6 +1,4 @@
-﻿using kul.forbes.domain;
-using kul.forbes.panocsharp;
-using kul.forbes.testTools;
+﻿using kul.forbes.panocsharp;
 using MathNet.Numerics.LinearAlgebra;
 using Xunit;
 
@@ -14,12 +12,7 @@ namespace kul.forbes.helpers.test
             var numberOfIterations =5;
             var degree = 6;
 
-            var costFunction = new MockedFunctionBuilder()
-                .WithCostGradient(
-                    (x) => x.PointwisePower(degree).Sum(),
-                    (x) => degree * x.PointwisePower(degree - 1))
-                .Build()
-                .Object;
+            var costFunction = new VectorFunction(x => (x.PointwisePower(degree).Sum(), degree * x.PointwisePower(degree - 1)));
             var constraint = new NormBox(dimension: 2, offSet: 2);
 
             var defaultConfig = new ConfigPanoc(problemDimension: 2);
@@ -41,12 +34,7 @@ namespace kul.forbes.helpers.test
             var numberOfIterations =10;
             var degree = 6;
 
-            var costFunction = new MockedFunctionBuilder()
-                .WithCostGradient(
-                    (x) => x.PointwisePower(degree).Sum(),
-                    (x) => degree * x.PointwisePower(degree - 1))
-                .Build()
-                .Object;
+            var costFunction = new VectorFunction(x => (x.PointwisePower(degree).Sum(), degree * x.PointwisePower(degree - 1)));
             var constraint = new NormBox(dimension: 2, offSet: 2);
 
             var defaultConfig = new ConfigPanoc(problemDimension: 2);

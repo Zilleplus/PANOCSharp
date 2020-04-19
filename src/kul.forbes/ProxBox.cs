@@ -1,8 +1,7 @@
 ﻿using kul.forbes.contracts;
 using MathNet.Numerics.LinearAlgebra;
-using System;
 
-namespace kul.forbes.domain
+namespace kul.forbes
 {
     public class ProxBox : IProx
     {
@@ -10,6 +9,12 @@ namespace kul.forbes.domain
         private readonly double penalty;
         private readonly int dimension;
 
+        /// <summary>
+        /// Put the value back within the borders of the box
+        /// </summary>
+        /// <param name="size">size of the border, values higher then this are pushed back inside</param>
+        /// <param name="penalty">cost of a value outside the box</param>
+        /// <param name="dimension">the dimension of the box</param>
         public ProxBox(
             double size,
             double penalty,

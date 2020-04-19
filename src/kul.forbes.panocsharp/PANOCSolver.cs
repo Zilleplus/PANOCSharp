@@ -19,7 +19,7 @@ namespace kul.forbes.panocsharp
             IProx proxCostFunction,
             IConfigPanoc config) 
         {
-            solver = new Panoc(new LBFGS(config),config);
+            solver = new Panoc(config);
             this.costFunction = costFunction;
             this.proxCostFunction = proxCostFunction;
         }

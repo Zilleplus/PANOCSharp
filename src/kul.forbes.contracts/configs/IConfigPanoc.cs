@@ -7,6 +7,9 @@ namespace kul.forbes.contracts.configs
 {
     public interface IConfigPanoc : IConfigLBFGS, IConfigProximalGradient, IConfigForwardBackwardEnvelop
     {
-        bool EnableLogging { get; } 
+        /// <summary>
+        /// The number of times the linesearch should backtrack.
+        /// </summary>
+        int FBEMaxIterations { get; }
     }
 }

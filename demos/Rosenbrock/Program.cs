@@ -1,6 +1,7 @@
 ﻿using System;
-using kul.forbes.domain;
+using kul.forbes;
 using kul.forbes.panocsharp;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace Rosenbrock
 {
@@ -10,7 +11,8 @@ namespace Rosenbrock
         {
             Console.WriteLine("Demo of PANOC API");
 
-            var costFunction = new Function((a) => (0, a));
+            var degree = 2;
+            var costFunction = new VectorFunction(x => (x.PointwisePower(degree).Sum(), degree * x.PointwisePower(degree - 1)));
             var constraint = new ProxBox(size: 1, penalty: 1, dimension: 2);
             var defaultConfig = new ConfigPanoc(problemDimension: 2);
 

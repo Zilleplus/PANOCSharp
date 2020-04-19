@@ -2,22 +2,36 @@
 using kul.forbes.contracts.configs;
 using kul.forbes.entities;
 using kul.forbes.helpers;
+using kul.forbes.helpers.Accelerators;
 using kul.forbes.helpers.contracts;
 using MathNet.Numerics.LinearAlgebra;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace kul.forbes
 {
+    public class PanocDiagnostics
+    {
+        public PanocDiagnostics(double tau,ProximalGradient proxOld,ProximalGradient proxNew)
+        {
+            Tau = tau;
+            ProxOld = proxOld;
+            ProxNew = proxNew;
+        }
+
+        public double Tau { get; }
+        public ProximalGradient ProxOld { get; }
+        public ProximalGradient ProxNew { get; }
+    }
+
     public class Panoc 
     {
-        private readonly IAccelerator accelerator;
         private readonly IConfigPanoc config;
+        public IEnumerable<PanocDiagnostics> diagnostics { get; } = Enumerable.Empty<PanocDiagnostics>();
 
-        public Panoc(
-            IAccelerator accelerator,
-            IConfigPanoc config) 
+        public Panoc( IConfigPanoc config) 
         {
-            this.accelerator = accelerator;
             this.config = config;
         }
 
@@ -26,8 +40,10 @@ namespace kul.forbes
             int maxIterations, 
             double minResidual,
             IFunction function,
-            IProx proxFunction)
+            IProx proxFunction,
+            bool diagnosticsEnabled = false)
         {
+            var diagnostics = new List<PanocDiagnostics>();
             var residual = double.MaxValue;
             var prox = ProximalGradientStep.Calculate(
                 new Location(initLocation,function.Evaluate(initLocation)),
@@ -35,19 +51,24 @@ namespace kul.forbes
                 function,
                 proxFunction);
             var fbe = ForwardBackwardEnvelop.Calculate(prox);
-
+            var accelerator = new LBFGS(config);
+            double tau = 0;
             for (int i = 0; i < maxIterations && residual>minResidual; i++)
             {
-                var oldLocation = prox.Location;
-                if (accelerator.HasCache) // there is accelstep then we can improve stuff
+                var oldProx = prox;
+                if (accelerator.HasCache) // If there is accelstep(which needs previous runs) then we can improve stuff
                 {
-                    (residual, prox, fbe) = Search(prox, fbe,function,proxFunction);
+                    (residual, prox, fbe,tau) = Search(prox, fbe,function,proxFunction,config,accelerator.GetStep(prox.Location));
                 }
                 else 
                 {
                     prox = ProximalGradientStep.Calculate(prox.ProxLocation,config,function,proxFunction);
                 }
-                accelerator.Update(oldLocation: oldLocation, newLocation: prox.Location);
+                // This update doesn't always mean that the cache will be updated,
+                // the lbfgs does a carefull update and will refuse some updates due to beein badly conditioned
+                var cacheUpdated = accelerator.Update(oldLocation: oldProx.Location, newLocation: prox.Location);
+
+                if (diagnosticsEnabled) { diagnostics.Add(new PanocDiagnostics(tau: tau, prox,oldProx)); }
             }
 
             return prox.Location.Position;
@@ -56,12 +77,17 @@ namespace kul.forbes
         private static Vector<double> Residual(ProximalGradient prox)
             => ((prox.Location.Position - prox.ProxLocation.Position) / prox.ProxLocation.Gamma);
 
-        private (double residual ,ProximalGradient prox,double fbe) 
-            Search(ProximalGradient prox, double fbe,IFunction function,IProx proxFunc)
+        private static (double residual ,ProximalGradient prox,double fbe,double tau) 
+            Search(
+            ProximalGradient prox,
+            double fbe,
+            IFunction function,
+            IProx proxFunc,
+            IConfigPanoc config,
+            Vector<double> accelerationStep)
         {
             Func<int, double> tau = i => Math.Pow(2.0, i);
-            var accelerationStep = accelerator.GetStep(prox.Location);
-            for (int i = 0; i < 10; i++) // FBE_LINESEARCH_MAX_ITERATIONS=10
+            for (int i = 0; i < config.FBEMaxIterations; i++) 
             {
                 var step = prox.Location.Position
                     + (prox.ProxLocation.Position - prox.Location.Position) * (1-tau(i))
@@ -76,12 +102,12 @@ namespace kul.forbes
 
                 if (newFbe< fbe)
                 {
-                    return ((Residual(newProx).InfinityNorm(),newProx,newFbe));
+                    return ((Residual(newProx).InfinityNorm(),newProx,newFbe,tau(i)));
                 }
             }
             // use only proximal gradient, no accelerator
             var pureProx = ProximalGradientStep.Calculate(prox.ProxLocation,config,function,proxFunc);
-            return (Residual(pureProx).InfinityNorm(),pureProx,ForwardBackwardEnvelop.Calculate(pureProx));
+            return (Residual(pureProx).InfinityNorm(),pureProx,ForwardBackwardEnvelop.Calculate(pureProx),tau:0);
         }
     }
 }

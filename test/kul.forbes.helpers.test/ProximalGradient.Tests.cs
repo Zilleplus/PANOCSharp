@@ -1,7 +1,5 @@
 ﻿using kul.forbes.contracts.configs;
-using kul.forbes.domain;
 using kul.forbes.entities;
-using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
 using System.Linq;
 using Xunit;
@@ -17,6 +15,8 @@ namespace kul.forbes.helpers.test
             public double LipschitzSafetyValue => 1e-6;
 
             public double Delta => 1e-12;
+
+            public double minGammaValue => 10;
         }
 
         [Fact]
@@ -24,12 +24,7 @@ namespace kul.forbes.helpers.test
         {
             var numberOfIterations = 99;
             var degree = 5;
-            var poly = new MockedFunctionBuilder()
-                .WithCostGradient(
-                    (x) => x.PointwisePower(degree).Sum(),
-                    (x) => degree*x.PointwisePower(degree-1))
-                .Build()
-                .Object;
+            var poly = new VectorFunction( (x) => (x.PointwisePower(degree).Sum(), degree * x.PointwisePower(degree - 1)));
             var proximalOperator = new NormBox(dimension: 2, offSet: 2);
 
             var initPosition = new double[] { 0.5, 0.5 };

@@ -1,8 +1,6 @@
-﻿using kul.forbes.contracts;
-using kul.forbes.contracts.configs;
+﻿using kul.forbes.contracts.configs;
 using kul.forbes.entities;
 using kul.forbes.helpers.Accelerators;
-using kul.forbes.testTools;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
@@ -38,18 +36,9 @@ namespace kul.forbes.helpers.test
         [Fact]
         public void Given_RosenBrock_Solve_With_LBFGS()
         {
-            var rosen = new MockedFunctionBuilder()
-                .WithCostGradient(
-                    (a)=>0,
-                    (x)=> RosenBrockGradient(x))
-                .Build()
-                .Object;
-
+            var rosen = new VectorFunction( (x) => (0, RosenBrockGradient(x)));
             var sut = new LBFGS( new RosenConfig() );
-
-            var startLocationVector =  new VectorBuilder()
-                .WithElements(-1.2, 1)
-                .Build();
+            var startLocationVector =  Vector<double>.Build.DenseOfArray(new[] { -1.2, 1 });
 
             var location = new Location(startLocationVector,rosen.Evaluate(startLocationVector));
             var res = Enumerable

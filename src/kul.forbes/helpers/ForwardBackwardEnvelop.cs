@@ -20,10 +20,11 @@ namespace kul.forbes.helpers
             (var fx, var df) = proxGradient.Location.Evaluated;
             var direction = proxGradient.Location.Position - proxGradient.ProxLocation.Position;
 
-            return fx
+            var fbe = fx
                 + proxGradient.ProxLocation.Constraint.Cost
                 - df.DotProduct(direction)
                 + (1 / (proxGradient.ProxLocation.Gamma * 2))*(direction.DotProduct(direction));
+            return fbe;
         }
     }
 }

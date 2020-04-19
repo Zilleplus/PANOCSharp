@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj" />
-    <ProjectReference Include="..\kul.forbes.testTools\kul.forbes.testTools.csproj" />
   </ItemGroup>
 
 </Project>

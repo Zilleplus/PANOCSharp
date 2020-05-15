@@ -65,6 +65,7 @@ namespace kul.forbes
                 else 
                 {
                     prox = ProximalGradientStep.Calculate(prox.ProxLocation,config,function,proxFunction);
+                    fbe = ForwardBackwardEnvelop.Calculate(prox);
                 }
                 // This update doesn't always mean that the cache will be updated,
                 // the lbfgs does a carefull update and will refuse some updates due to beein badly conditioned

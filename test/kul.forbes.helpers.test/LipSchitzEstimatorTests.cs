@@ -21,7 +21,6 @@ namespace kul.forbes.helpers.test
         { 
             var degree = 2;
             var poly = new VectorFunction( (x) => (x.PointwisePower(degree).Sum(), degree * x.PointwisePower(degree - 1)));
-            var proximalOperator = new NormBox(dimension: 2, offSet: 2);
 
             var initPosition = Vector<double>.Build.DenseOfArray(new double[] { 6, 10 });
             var location = new Location(initPosition, poly.Evaluate(initPosition));

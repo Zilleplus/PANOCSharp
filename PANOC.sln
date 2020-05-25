@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.entities", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kul.forbes.panocsharp", "src\kul.forbes.panocsharp\kul.forbes.panocsharp.csproj", "{549AEC5B-A5E1-4A43-BE20-24B814E4B753}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NMPC", "demos\NMPC\NMPC.csproj", "{548CCE42-71A5-4E24-8F36-472E72A0E19C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{549AEC5B-A5E1-4A43-BE20-24B814E4B753}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{549AEC5B-A5E1-4A43-BE20-24B814E4B753}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{549AEC5B-A5E1-4A43-BE20-24B814E4B753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{548CCE42-71A5-4E24-8F36-472E72A0E19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{548CCE42-71A5-4E24-8F36-472E72A0E19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{548CCE42-71A5-4E24-8F36-472E72A0E19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{548CCE42-71A5-4E24-8F36-472E72A0E19C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{65CF66F5-34DE-4915-A860-11A41DEFBAED} = {F9D05B5D-656B-4565-8408-D6BDE592EDCE}
 		{A3F69CE5-35B8-4BEE-B4A3-8453C8295200} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
 		{549AEC5B-A5E1-4A43-BE20-24B814E4B753} = {DE3FEB5E-3B00-4082-ABD7-175DEAA13712}
+		{548CCE42-71A5-4E24-8F36-472E72A0E19C} = {B3796EF9-8BD0-4F77-848D-332E193DB53B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB346C63-DDD8-44E8-BBBD-F676D0D1BD53}
